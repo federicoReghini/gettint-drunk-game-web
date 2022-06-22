@@ -6,7 +6,11 @@ function App() {
   return (
     <div className="App">
      
-      <HomeNf />
+     <HomeNf 
+      onQuickMatch={()=> console.log('onQuickMatch')} 
+      onCreateLobby={()=> console.log('onCreateLobby')} 
+      onLeaderBoard={()=> console.log('onLeaderBoard')} 
+      />
     </div>
   );
 }
