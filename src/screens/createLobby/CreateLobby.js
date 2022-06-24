@@ -1,10 +1,10 @@
-import { CreateLobby } from 'gettint-drunk/dist/components';
+import { CreateLobbyNf } from 'gettint-drunk/dist/components';
 import React from 'react'
 
 function CreatesLobby() {
   return (
     <div className='container'>
-      <CreateLobby />
+      <CreateLobbyNf />
     </div>
   )
 }

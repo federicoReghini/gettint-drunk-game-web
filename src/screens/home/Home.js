@@ -1,19 +1,20 @@
 import React from 'react';
 
 // library
-import { HomeNf } from 'gettint-drunk/dist/components';
-import {useNavigate} from 'react-router-dom';
+import { HomeNf, setStorage } from 'gettint-drunk';
+import { useNavigate } from 'react-router-dom';
 
 // styles
 import './Home.css';
 import { routes } from '../../routes/routes';
+import { ButtonNf } from 'gettint-drunk/dist/components';
 
 function Home() {
 
   const navigate = useNavigate();
 
   const handleNavigation = (path) => () => {
-     navigate(path)
+    navigate(path)
   }
 
   const handleQuickGame = () => {
@@ -27,4 +28,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Home;
