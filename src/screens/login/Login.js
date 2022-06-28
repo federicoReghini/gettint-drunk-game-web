@@ -4,14 +4,21 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
- const handleNavigation = () => {
-  navigate('Home');
- }
+  const handleNavigation = (routes) => () => {
+    navigate(routes);
+  }
 
   return (
-    <LoginNf onPressSubmit={handleNavigation} />
+   <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh'
+   }}>
+     <LoginNf onPressSubmit={handleNavigation('Home')} onGoToRegistration={handleNavigation('Registration')} />
+   </div>
   )
 }
 
