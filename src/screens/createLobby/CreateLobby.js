@@ -1,4 +1,4 @@
-import { CreateLobbyNf } from 'gettint-drunk/dist/components';
+import { CreateLobbyNf } from 'gettint-drunk';
 import React from 'react'
 
 function CreatesLobby() {

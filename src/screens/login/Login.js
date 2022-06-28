@@ -1,9 +1,18 @@
-import React from 'react'
+import { LoginNf } from 'gettint-drunk';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
+ const navigate = useNavigate();
+
+ const handleNavigation = () => {
+  navigate('Home');
+ }
+
   return (
-    <div>Login</div>
+    <LoginNf onPressSubmit={handleNavigation} />
   )
 }
 
-export default Login
+export default Login;

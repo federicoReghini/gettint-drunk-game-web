@@ -1,10 +1,11 @@
-import { LeaderBoardNf } from 'gettint-drunk/dist/components'
-import React from 'react'
+import { getUsers, LeaderBoardNf } from 'gettint-drunk';
+import React, { useEffect } from 'react'
 
 function Leaderboard() {
+
   return (
     <LeaderBoardNf />
   )
 }
 
-export default Leaderboard
+export default Leaderboard;
