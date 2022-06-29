@@ -1,12 +1,19 @@
+import React from 'react';
+
+// librarty
 import { LeaderBoardNf } from 'gettint-drunk';
-import React from 'react'
+
+// navigate
 import { useNavigate } from 'react-router-dom';
+
+// routes
+import { routes } from '../../routes/routes';
 
 function Leaderboard() {
 
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate('/Home')
+    navigate(routes.HOME)
   }
 
   return (

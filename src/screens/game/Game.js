@@ -1,8 +1,12 @@
+import { LobbyContainer } from 'gettint-drunk'
 import React from 'react'
 
 function Game() {
+
   return (
-    <div>Game</div>
+    <div>
+      <LobbyContainer />
+    </div>
   )
 }
 

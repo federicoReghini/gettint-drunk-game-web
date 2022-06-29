@@ -1,6 +1,13 @@
-import { LoginNf } from 'gettint-drunk';
 import React from 'react';
+
+// navigation
 import { useNavigate } from 'react-router-dom';
+
+// library
+import { LoginNf } from 'gettint-drunk';
+
+// routes
+import { routes } from '../../routes/routes';
 
 function Login() {
 
@@ -17,7 +24,7 @@ function Login() {
     justifyContent: 'center',
     height: '100vh'
    }}>
-     <LoginNf onPressSubmit={handleNavigation('Home')} onGoToRegistration={handleNavigation('Registration')} />
+     <LoginNf onPressSubmit={handleNavigation(routes.HOME)} onGoToRegistration={handleNavigation(routes.REGISTRATION)} />
    </div>
   )
 }
