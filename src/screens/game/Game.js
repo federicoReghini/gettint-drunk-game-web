@@ -18,21 +18,21 @@ function Game() {
 
   useEffect(() => {
     connectWS();
-    getMessage();
     (async () => {
-
+      
       id = await getStorage('user');
+      getMessage(id);
+      setTimeout(() => {
+          const message = {
+            user_id: id,
+            method: "connectLobby"
+          }
+          sendMessage(message);
+      }, 1000);
     })()
-    setTimeout(() => {
-        const message = {
-          user_id: id,
-          method: "connectLobby"
-        }
-        sendMessage(message);
-    }, 1000);
     // connectWS()
     // sendRequestToWs('startMatch', null, id)
-  },[getMessage])
+  },[])
 
   const handleNavigation = () => {
     navigate(routes.HOME);

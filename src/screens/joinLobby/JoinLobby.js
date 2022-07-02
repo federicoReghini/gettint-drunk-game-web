@@ -78,7 +78,7 @@
 import React, { useEffect, useState } from 'react';
 
 // library
-import { getStorage, JoinLobbyNf } from 'gettint-drunk';
+import { getStorage, JoinLobbyNf, LobbyContainer } from 'gettint-drunk';
 
 // navigation
 import { useNavigate } from 'react-router-dom';
@@ -96,14 +96,12 @@ let token;
 let lobby;
 let connectionEstablished;
 
-
-
-
 function JoinLobby() {
 
   const navigate = useNavigate();
   const [state, setState] = useState({
-    id: null
+    id: null,
+    isMatch: false
   })
 
   useEffect(() => {
@@ -116,10 +114,10 @@ function JoinLobby() {
         id: id
       })
     
-      getMessage();
+      getMessage(id);
   
       // if (lobby === null) {
-        createLobby(token).then(response => {
+          playFastUser(token).then(response => {
           lobby = response.data;
           
           connectionEstablished = false;
@@ -145,7 +143,11 @@ function JoinLobby() {
       method: "startMatch"
    }
    sendMessage(message);
-    navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
+    // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
+    setState({
+      ...state,
+      isMatch: true
+    })
   }
 
 
@@ -156,7 +158,12 @@ function JoinLobby() {
       justifyContent: 'center',
       height: '100vh'
     }}>
-      <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
+      {
+        !state.isMatch ? 
+        <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
+        :
+        <LobbyContainer lobbyId={lobby.idLobby} />
+      }
     </div>
   )
 }
