@@ -1,11 +1,38 @@
-import { LobbyContainer } from 'gettint-drunk'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { routes } from '../../routes/routes';
+import React, { useEffect } from 'react';
 
+// library
+import { connectWS, getStorage, LobbyContainer } from 'gettint-drunk';
+
+// navigation
+import { useLocation, useNavigate } from 'react-router-dom';
+import { routes } from '../../routes/routes';
+import { getMessage, sendRequestToWs } from 'gettint-drunk/dist/services/genericWebSocket';
+import { sendMessage } from 'gettint-drunk/dist/services/genericWebSocket';
+let id;
 function Game() {
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const lobbyId = location.state.lobbyId
+
+  useEffect(() => {
+    connectWS();
+    getMessage();
+    (async () => {
+
+      id = await getStorage('user');
+    })()
+    setTimeout(() => {
+        const message = {
+          user_id: id,
+          method: "connectLobby"
+        }
+        sendMessage(message);
+    }, 1000);
+    // connectWS()
+    // sendRequestToWs('startMatch', null, id)
+  },[getMessage])
 
   const handleNavigation = () => {
     navigate(routes.HOME);
@@ -13,7 +40,10 @@ function Game() {
 
   return (
     <div>
-      <LobbyContainer onAfterQuit={handleNavigation} />
+      <LobbyContainer 
+      onAfterQuit={handleNavigation}
+      lobbyId={lobbyId}
+      />
     </div>
   )
 }

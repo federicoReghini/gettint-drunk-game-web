@@ -1,4 +1,4 @@
-import { getStorage, useLogout } from 'gettint-drunk';
+import { connectWS, getStorage, useLogout } from 'gettint-drunk';
 import React, { useEffect, useState } from 'react';
 
 // react router and routes path
@@ -14,11 +14,15 @@ import Login from './screens/login/Login';
 import Registration from './screens/registration/Registration';
 import Game from './screens/game/Game';
 
+// var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws')
+
+
 function Routing() {
 
   const logout = useLogout();
 
   function callbackUseEffect() {
+    connectWS();
     (async () => {
       await logout.logoutExpire();
     })()
