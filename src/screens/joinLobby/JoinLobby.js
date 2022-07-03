@@ -88,7 +88,7 @@ import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
 import { eventEmit } from 'gettint-drunk';
 import { eventOn } from 'gettint-drunk';
 import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
-import { connect, sendMessage } from '../../webSocket/genericWebSocket';
+import { connect, requestCard, sendMessage, stopPlaying } from '../../webSocket/genericWebSocket';
 var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws')
 
 let id;
@@ -120,29 +120,29 @@ function JoinLobby() {
         ...state,
         id: id
       })
-    
+
       connect(id);
-  
+
       // if (lobby === null) {
-          createLobby(token).then(response => {
-          lobby = response?.data;
-          
-          connectionEstablished = false;
-          setTimeout(() => {
-            if (WS != null) {
-              const message = {
-                user_id: id,
-                method: "connectLobby"
-              }
-              sendMessage(message);
-              connectionEstablished = true;
+      createLobby(token).then(response => {
+        lobby = response?.data;
+
+        connectionEstablished = false;
+        setTimeout(() => {
+          if (WS != null) {
+            const message = {
+              user_id: id,
+              method: "connectLobby"
             }
-          }, 1000);
-        })
+            sendMessage(message);
+            connectionEstablished = true;
+          }
+        }, 1000);
+      })
       // }
     })()
 
-  },[])
+  }, [])
 
   const handleNavigation = () => {
     const message = {
@@ -155,6 +155,14 @@ function JoinLobby() {
   }
 
 
+  const requestCardFunc = () => {
+    requestCard(id)
+  }
+
+  const stopPlayingFunc = () => {
+    stopPlaying(id)
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -166,7 +174,7 @@ function JoinLobby() {
         !state.isMatch ?
           <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
           :
-          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} />
+          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
       }
     </div>
   )
