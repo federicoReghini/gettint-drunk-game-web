@@ -104,6 +104,14 @@ function JoinLobby() {
   })
 
   useEffect(() => {
+    eventOn('match', e => {
+      if(JSON.parse(e) !== undefined){
+        setState({
+          ...state,
+          isMatch: true
+        })
+      }
+    })
     (async () => {
       token = await getStorage('token')
       await deleteApi('lobby', token)
@@ -143,10 +151,7 @@ function JoinLobby() {
     }
     sendMessage(message);
     // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
-    setState({
-      ...state,
-      isMatch: true
-    })
+   
   }
 
 
