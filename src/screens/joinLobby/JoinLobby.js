@@ -105,7 +105,7 @@ function JoinLobby() {
 
   useEffect(() => {
     eventOn('match', e => {
-      if(JSON.parse(e) !== undefined){
+      if(JSON.parse(e) !== null){
         setState({
           ...state,
           isMatch: true
