@@ -22,7 +22,7 @@ function Routing() {
   const logout = useLogout();
 
   function callbackUseEffect() {
-    connectWS();
+  
     (async () => {
       await logout.logoutExpire();
     })()

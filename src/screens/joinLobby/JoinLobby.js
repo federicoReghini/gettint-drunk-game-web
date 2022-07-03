@@ -87,8 +87,8 @@ import { playFastUser } from 'gettint-drunk/dist/services/api/userapi';
 import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
 import { eventEmit } from 'gettint-drunk';
 import { eventOn } from 'gettint-drunk';
-import { createLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
-import { getMessage, sendMessage } from 'gettint-drunk/dist/services/genericWebSocket';
+import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
+import { connect, sendMessage } from '../../webSocket/genericWebSocket';
 var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws')
 
 let id;
@@ -114,11 +114,11 @@ function JoinLobby() {
         id: id
       })
     
-      getMessage(id);
+      connect();
   
       // if (lobby === null) {
-          playFastUser(token).then(response => {
-          lobby = response.data;
+          createLobby(token).then(response => {
+          lobby = response?.data;
           
           connectionEstablished = false;
           setTimeout(() => {
@@ -135,7 +135,7 @@ function JoinLobby() {
       // }
     })()
 
-  }, [])
+  },[])
 
   const handleNavigation = () => {
     const message = {
