@@ -98,7 +98,6 @@ let connectionEstablished;
 
 function JoinLobby() {
 
-  const navigate = useNavigate();
   const [state, setState] = useState({
     id: null,
     isMatch: false
@@ -114,7 +113,7 @@ function JoinLobby() {
         id: id
       })
     
-      connect();
+      connect(id);
   
       // if (lobby === null) {
           createLobby(token).then(response => {
@@ -141,8 +140,8 @@ function JoinLobby() {
     const message = {
       user_id: id,
       method: "startMatch"
-   }
-   sendMessage(message);
+    }
+    sendMessage(message);
     // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
     setState({
       ...state,
@@ -159,10 +158,10 @@ function JoinLobby() {
       height: '100vh'
     }}>
       {
-        !state.isMatch ? 
-        <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
-        :
-        <LobbyContainer lobbyId={lobby.idLobby} />
+        !state.isMatch ?
+          <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
+          :
+          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} />
       }
     </div>
   )
