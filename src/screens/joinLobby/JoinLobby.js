@@ -104,43 +104,46 @@ function JoinLobby() {
   })
 
   useEffect(() => {
+    const newState = Object.assign({}, state);
     eventOn('match', e => {
-      if(JSON.parse(e) !== null){
-        setState({
-          ...state,
-          isMatch: true
-        })
+      if (JSON.parse(e) !== null) {
+        newState.isMatch = true
       }
     })
-    (async () => {
-      token = await getStorage('token')
-      await deleteApi('lobby', token)
-      id = await getStorage('user');
-      setState({
-        ...state,
-        id: id
-      })
+      (async () => {
+        token = await getStorage('token')
+        await deleteApi('lobby', token)
+        id = await getStorage('user');
+        setState({
+          ...state,
+          id: id
+        })
 
-      connect(id);
+        connect(id);
 
-      // if (lobby === null) {
-      createLobby(token).then(response => {
-        lobby = response?.data;
+        // if (lobby === null) {
+        createLobby(token).then(response => {
+          lobby = response?.data;
 
-        connectionEstablished = false;
-        setTimeout(() => {
-          if (WS != null) {
-            const message = {
-              user_id: id,
-              method: "connectLobby"
+          connectionEstablished = false;
+          setTimeout(() => {
+            if (WS != null) {
+              const message = {
+                user_id: id,
+                method: "connectLobby"
+              }
+              sendMessage(message);
+              connectionEstablished = true;
             }
-            sendMessage(message);
-            connectionEstablished = true;
-          }
-        }, 1000);
-      })
-      // }
-    })()
+          }, 1000);
+        })
+        // }
+      })()
+
+    setState({
+      ...state,
+      isMatch: true
+    })
 
   }, [])
 
@@ -151,7 +154,7 @@ function JoinLobby() {
     }
     sendMessage(message);
     // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
-   
+
   }
 
 
