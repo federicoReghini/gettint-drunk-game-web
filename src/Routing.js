@@ -1,5 +1,5 @@
-import { connectWS, getStorage, useLogout } from 'gettint-drunk';
-import React, { useEffect, useState } from 'react';
+import { useLogout } from 'gettint-drunk';
+import React, { useEffect } from 'react';
 
 // react router and routes path
 import { Routes, Route } from "react-router-dom";
@@ -22,7 +22,7 @@ function Routing() {
   const logout = useLogout();
 
   function callbackUseEffect() {
-  
+
     (async () => {
       await logout.logoutExpire();
     })()

@@ -81,14 +81,13 @@ import React, { useEffect, useState } from 'react';
 import { getStorage, JoinLobbyNf, LobbyContainer } from 'gettint-drunk';
 
 // navigation
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../routes/routes';
 import { playFastUser } from 'gettint-drunk/dist/services/api/userapi';
 import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
-import { eventEmit } from 'gettint-drunk';
-import { eventOn } from 'gettint-drunk';
+// import { eventEmit } from 'gettint-drunk';
+// import { eventOn } from 'gettint-drunk';
 import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
 import { connect, requestCard, sendMessage, stopPlaying } from '../../webSocket/genericWebSocket';
+import { eventOn } from 'gettint-drunk';
 var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws')
 
 let id;
@@ -105,11 +104,12 @@ function JoinLobby() {
 
   useEffect(() => {
     const newState = Object.assign({}, state);
-    eventOn('match', e => {
-      if (JSON.parse(e) !== null) {
-        newState.isMatch = true
-      }
-    })
+    // eventOn('match', e => {
+    //   console.log('event match',e);
+    //   // if (JSON.parse(e) !== null) {
+    //   //   newState.isMatch = true
+    //   // }
+    // })
       (async () => {
         token = await getStorage('token')
         await deleteApi('lobby', token)
@@ -140,10 +140,12 @@ function JoinLobby() {
         // }
       })()
 
-    setState({
-      ...state,
-      isMatch: true
-    })
+    if (newState.isMatch !== state.isMatch) {
+      setState({
+        ...state,
+        isMatch: newState.isMatch
+      })
+    }
 
   }, [])
 
@@ -154,7 +156,10 @@ function JoinLobby() {
     }
     sendMessage(message);
     // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
-
+    setState({
+      ...state,
+      isMatch: true
+    })
   }
 
 
@@ -183,4 +188,4 @@ function JoinLobby() {
   )
 }
 
-export default JoinLobby
+export default JoinLobby;
