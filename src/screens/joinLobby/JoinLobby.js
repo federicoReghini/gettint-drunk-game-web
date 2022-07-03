@@ -113,25 +113,25 @@ function JoinLobby() {
         ...state,
         id: id
       })
-    
+
       getMessage(id);
-  
+
       // if (lobby === null) {
-          playFastUser(token).then(response => {
-          lobby = response.data;
-          
-          connectionEstablished = false;
-          setTimeout(() => {
-            if (WS != null) {
-              const message = {
-                user_id: id,
-                method: "connectLobby"
-              }
-              sendMessage(message);
-              connectionEstablished = true;
+      playFastUser(token).then(response => {
+        lobby = response.data;
+
+        connectionEstablished = false;
+        setTimeout(() => {
+          if (WS != null) {
+            const message = {
+              user_id: id,
+              method: "connectLobby"
             }
-          }, 1000);
-        })
+            sendMessage(message);
+            connectionEstablished = true;
+          }
+        }, 1000);
+      })
       // }
     })()
 
@@ -141,8 +141,8 @@ function JoinLobby() {
     const message = {
       user_id: id,
       method: "startMatch"
-   }
-   sendMessage(message);
+    }
+    sendMessage(message);
     // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
     setState({
       ...state,
@@ -159,10 +159,10 @@ function JoinLobby() {
       height: '100vh'
     }}>
       {
-        !state.isMatch ? 
-        <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
-        :
-        <LobbyContainer lobbyId={lobby.idLobby} />
+        !state.isMatch ?
+          <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
+          :
+          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} />
       }
     </div>
   )
