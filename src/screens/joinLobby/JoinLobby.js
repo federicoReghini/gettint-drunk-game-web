@@ -117,7 +117,7 @@ function JoinLobby() {
       connect(id);
 
       // if (lobby === null) {
-      editLobby(49,null,token).then(response => {
+      editLobby(52,null,token).then(response => {
         lobby = response?.data;
 
         eventOn('lobby', e => {
