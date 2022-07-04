@@ -183,7 +183,7 @@ function JoinLobby() {
         !state.isMatch ?
           <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
           :
-          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
+          <LobbyContainer lobbyId={lobby.idLobby} userId={id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
       }
     </div>
   )
