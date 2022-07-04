@@ -12,7 +12,15 @@ function Registration() {
   }
 
   return (
-    <SignupNf onPressSubmit={handleNavigation} />
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100vh'
+    }}>
+      <SignupNf onPressSubmit={handleNavigation} />
+
+    </div>
   )
 }
 

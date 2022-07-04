@@ -1,4 +1,4 @@
-import { eventEmit, eventOn } from "gettint-drunk";
+import { eventEmit, eventOn, setStorage } from "gettint-drunk";
 import { quitLobby } from "gettint-drunk/dist/services/api/lobbyapi";
 
 
@@ -6,7 +6,7 @@ const WEBSOCKET = 'ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com
 
 var WS = null
 
-let MATCH = null;
+export var MATCH = null;
 let LOBBY = null;
 
 export function connect(idUser) {
@@ -29,15 +29,18 @@ export function connect(idUser) {
              })
             console.log(MATCH);
             if (MATCH === null || undefined) {
-
                 eventEmit('match', event.data);
-
+                eventEmit('isMatch', true);
+                
                 setTimeout(() => {
                     requestCard(idUser);
                 }, 1000);
+                return MATCH = event.data;
 
             } else {
                 eventEmit('match', event.data);
+
+                return MATCH = event.data; 
             }
         }
     }

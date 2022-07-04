@@ -88,12 +88,12 @@ import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
 import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
 import { connect, requestCard, sendMessage, stopPlaying } from '../../webSocket/genericWebSocket';
 import { eventOn } from 'gettint-drunk';
-var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws')
+
+var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws');
 
 let id;
 let token;
 let lobby;
-let connectionEstablished;
 
 function JoinLobby() {
 
@@ -102,52 +102,52 @@ function JoinLobby() {
     isMatch: false
   })
 
+
   useEffect(() => {
-    const newState = Object.assign({}, state);
-    // eventOn('match', e => {
-    //   console.log('event match',e);
-    //   // if (JSON.parse(e) !== null) {
-    //   //   newState.isMatch = true
-    //   // }
-    // })
-      (async () => {
-        token = await getStorage('token')
-        await deleteApi('lobby', token)
-        id = await getStorage('user');
-        setState({
-          ...state,
-          id: id
-        })
-
-        connect(id);
-
-        // if (lobby === null) {
-        createLobby(token).then(response => {
-          lobby = response?.data;
-
-          connectionEstablished = false;
-          setTimeout(() => {
-            if (WS != null) {
-              const message = {
-                user_id: id,
-                method: "connectLobby"
-              }
-              sendMessage(message);
-              connectionEstablished = true;
-            }
-          }, 1000);
-        })
-        // }
-      })()
-
-    if (newState.isMatch !== state.isMatch) {
+  
+    (async () => {
+      token = await getStorage('token')
+      await deleteApi('lobby', token)
+      id = await getStorage('user');
       setState({
         ...state,
-        isMatch: newState.isMatch
+        id: id
       })
-    }
+
+      connect(id);
+
+      // if (lobby === null) {
+      createLobby(token).then(response => {
+        lobby = response?.data;
+
+        setTimeout(() => {
+          if (WS != null) {
+            const message = {
+              user_id: id,
+              method: "connectLobby"
+            }
+            sendMessage(message);
+          }
+        }, 1000);
+      })
+      // }
+    })()
+
+
 
   }, [])
+
+  useEffect(() => {
+   eventOn('isMatch', e => {
+    if(e === true){
+      console.log('faccio state');
+      setState({
+        ...state,
+      isMatch: e})
+    }
+   })
+
+  },[])
 
   const handleNavigation = () => {
     const message = {
@@ -155,11 +155,6 @@ function JoinLobby() {
       method: "startMatch"
     }
     sendMessage(message);
-    // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
-    setState({
-      ...state,
-      isMatch: true
-    })
   }
 
 
