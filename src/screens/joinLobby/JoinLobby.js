@@ -88,6 +88,8 @@ import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
 import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
 import { connect, requestCard, sendMessage, stopPlaying } from '../../webSocket/genericWebSocket';
 import { eventOn } from 'gettint-drunk';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../routes/routes';
 
 var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws');
 
@@ -101,6 +103,8 @@ function JoinLobby() {
     id: null,
     isMatch: false
   })
+
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -117,7 +121,7 @@ function JoinLobby() {
       connect(id);
 
       // if (lobby === null) {
-      editLobby(66,null,token).then(response => {
+      editLobby(69, null, token).then(response => {
         lobby = response?.data;
 
         eventOn('lobby', e => {
@@ -172,6 +176,10 @@ function JoinLobby() {
     stopPlaying(id)
   }
 
+  const handleQuit = () => {
+    navigate(routes.HOME);
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -183,7 +191,7 @@ function JoinLobby() {
         !state.isMatch ?
           <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
           :
-          <LobbyContainer lobbyId={lobby.idLobby} userId={id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
+          <LobbyContainer lobbyId={lobby.idLobby} userId={id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} onAfterQuit={handleQuit} />
       }
     </div>
   )
