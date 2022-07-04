@@ -24,23 +24,24 @@ export function connect(idUser) {
         if (WSDATA.hasOwnProperty("idLobby")) {
             eventEmit('lobby', event.data)
         } else {
-             eventOn('match', e => {
+            eventOn('match', e => {
                 MATCH = JSON.parse(e);
-             })
+            })
             console.log(MATCH);
             if (MATCH === null || undefined) {
+
                 eventEmit('match', event.data);
                 eventEmit('isMatch', true);
-                
+
                 setTimeout(() => {
                     requestCard(idUser);
                 }, 1000);
-                return MATCH = event.data;
+                MATCH = event.data;
 
             } else {
                 eventEmit('match', event.data);
 
-                return MATCH = event.data; 
+                MATCH = event.data;
             }
         }
     }
@@ -82,9 +83,9 @@ export function stopPlaying(idUser) {
 
 export function changeLobbyAccess(idUser) {
     console.log("changing access");
-     eventOn('lobby', e => {
+    eventOn('lobby', e => {
         LOBBY = JSON.parse(e)
-     })
+    })
     const message = {
         user_id: idUser,
         method: "changeLobbyAccess",
@@ -114,9 +115,9 @@ export function quitLobbyWs(token, idUser) {
     quitLobby(token).then(response => {
         if (response?.data?.esito) {
 
-             eventOn('lobby', e => {
+            eventOn('lobby', e => {
                 LOBBY = JSON.parse(e);
-             });
+            });
 
             console.log('EvLobby', LOBBY);
 
@@ -156,9 +157,9 @@ export function quitMatch(idUser) {
     }, 100);
 }
 
-export function getMatchHand(idUser, match) {
+export function getMatchHand(idUser) {
 
-    for (const hand of match.hands) {
+    for (const hand of MATCH.hands) {
 
         if (hand.user.id == idUser) {
             return hand;
