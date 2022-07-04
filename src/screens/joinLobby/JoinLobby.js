@@ -104,7 +104,7 @@ function JoinLobby() {
 
 
   useEffect(() => {
-  
+
     (async () => {
       token = await getStorage('token')
       await deleteApi('lobby', token)
@@ -117,8 +117,13 @@ function JoinLobby() {
       connect(id);
 
       // if (lobby === null) {
-      createLobby(token).then(response => {
+      editLobby(3, null, token).then(response => {
         lobby = response?.data;
+
+        eventOn('lobby', e => {
+          lobby = JSON.parse(e)
+          console.log('lobby', lobby);
+        })
 
         setTimeout(() => {
           if (WS != null) {
@@ -138,16 +143,17 @@ function JoinLobby() {
   }, [])
 
   useEffect(() => {
-   eventOn('isMatch', e => {
-    if(e === true){
-      console.log('faccio state');
-      setState({
-        ...state,
-      isMatch: e})
-    }
-   })
+    eventOn('isMatch', e => {
+      if (e === true) {
+        console.log('faccio state');
+        setState({
+          ...state,
+          isMatch: e
+        })
+      }
+    })
 
-  },[])
+  }, [])
 
   const handleNavigation = () => {
     const message = {
